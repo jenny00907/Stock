@@ -7,8 +7,15 @@
 
 import UIKit
 import Combine
+import MBProgressHUD
 
-class SearchVC: UITableViewController {
+class SearchVC: UITableViewController, UIAnimatable {
+    
+    private enum Mode {
+        case onboarding
+        case search
+    }
+    
     
     private lazy var searchController: UISearchController = {
         let sc = UISearchController(searchResultsController: nil)
@@ -22,13 +29,18 @@ class SearchVC: UITableViewController {
     
     private let apiService = APIService()
     private var searchResults: SearchResults?
+    
     private var subscribers = Set<AnyCancellable>()
+    
+    @Published private var mode = Mode.onboarding
     @Published private var searchQuery = String()
+    
     
     override
     func viewDidLoad() {
         super.viewDidLoad()
         setUpNavigationBar()
+        setUpTableView()
         observeForm()
         
     }
@@ -36,6 +48,12 @@ class SearchVC: UITableViewController {
     private
     func setUpNavigationBar() {
         navigationItem.searchController = searchController
+        navigationItem.title = "Search.. "
+    }
+    
+    private
+    func setUpTableView() {
+        tableView.tableFooterView = UIView()
     }
     
     private
@@ -44,13 +62,25 @@ class SearchVC: UITableViewController {
         $searchQuery
             .debounce(for: .milliseconds(750), scheduler: RunLoop.main)
             .sink { [unowned self] (searchQuery) in
+                guard !searchQuery.isEmpty else { return }
+                showLoadingAnimation()
                 self.performSearch(with: searchQuery)
             }.store(in: &subscribers)
+        
+        $mode.sink { [unowned self] (mode) in
+            switch mode {
+            case .onboarding:
+                self.tableView.backgroundView = SearchPlaceholder()
+            case .search:
+                self.tableView.backgroundView = nil
+            }
+        }.store(in: &subscribers)
     }
     
     private
     func performSearch(with query: String) {
         apiService.fetchSymbolsPublisher(keywords: query).sink { (completion) in
+            self.hideLoadingAnimation()
             switch completion {
             case .failure(let error):
                 print(error.localizedDescription)
@@ -76,6 +106,10 @@ class SearchVC: UITableViewController {
         }
         return cell
     }
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        performSegue(withIdentifier: "showCalculator", sender: nil)
+    }
+    
 }
 
 extension SearchVC: UISearchResultsUpdating, UISearchControllerDelegate {
@@ -86,6 +120,9 @@ extension SearchVC: UISearchResultsUpdating, UISearchControllerDelegate {
         self.searchQuery = searchQuery
         
         
+    }
+    func willPresentSearchController(_ searchController: UISearchController) {
+        mode = .search
     }
     
 }
