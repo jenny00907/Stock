@@ -107,7 +107,45 @@ class SearchVC: UITableViewController, UIAnimatable {
         return cell
     }
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        performSegue(withIdentifier: "showCalculator", sender: nil)
+        if let searchResults = searchResults {
+            let symbol = searchResults.items[indexPath.item].symbol
+            let searchResult = searchResults.items[indexPath.item]
+            handleSelection(for: symbol, searchResult: searchResult)
+        }
+        
+        
+       
+    }
+    
+    private
+    func handleSelection(for symbol: String, searchResult: SearchResult) {
+        showLoadingAnimation()
+        apiService.fetchMonthlyAdjustedPublisher(keywords: symbol)
+            .sink { (result) in
+                self.hideLoadingAnimation()
+
+                switch result {
+                case .failure(let error):
+                    print(error)
+                case .finished: break
+                }
+            } receiveValue: { [weak self] (monthlyAdjusted) in
+                print("Sucess \(monthlyAdjusted.getMonthlyInfo())")
+                self?.hideLoadingAnimation()
+                let asset = Asset(searchResult: searchResult, monthlyAdjusted: monthlyAdjusted)
+                self?.performSegue(withIdentifier: "showCalculator", sender: asset)
+
+
+            }.store(in: &subscribers)
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "showCalculator",
+           let destination = segue.destination as? CalculatorTableVC,
+           let asset = sender as? Asset {
+            destination.asset = asset
+        }
+            
     }
     
 }
