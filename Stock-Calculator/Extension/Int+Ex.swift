@@ -6,3 +6,10 @@
 //
 
 import Foundation
+
+
+extension Int {
+    var asFloat: Float {
+        return Float(self)
+    }
+}

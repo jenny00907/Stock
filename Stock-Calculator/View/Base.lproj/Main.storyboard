@@ -95,7 +95,7 @@
         <scene sceneID="g9Z-eC-2sz">
             <objects>
                 <tableViewController id="sxu-XD-lkN" customClass="CalculatorTableVC" customModule="Stock_Calculator" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" id="08d-0a-cv9">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" separatorStyle="none" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" id="08d-0a-cv9">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -277,7 +277,7 @@
                                                                         <constraint firstAttribute="height" constant="36" id="vd8-A6-e3P"/>
                                                                     </constraints>
                                                                     <fontDescription key="fontDescription" name="AvenirNext-Medium" family="Avenir Next" pointSize="18"/>
-                                                                    <textInputTraits key="textInputTraits"/>
+                                                                    <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
                                                                 </textField>
                                                                 <stackView opaque="NO" contentMode="scaleToFill" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="NVm-G4-7hI">
                                                                     <rect key="frame" x="0.0" y="32" width="382" height="18"/>
@@ -310,7 +310,7 @@
                                                                         <constraint firstAttribute="height" constant="36" id="oef-78-Sjh"/>
                                                                     </constraints>
                                                                     <fontDescription key="fontDescription" name="AvenirNext-Medium" family="Avenir Next" pointSize="18"/>
-                                                                    <textInputTraits key="textInputTraits"/>
+                                                                    <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
                                                                 </textField>
                                                                 <stackView opaque="NO" contentMode="scaleToFill" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="oha-Ky-8k7">
                                                                     <rect key="frame" x="0.0" y="32" width="382" height="18"/>
@@ -343,7 +343,7 @@
                                                                         <constraint firstAttribute="height" constant="36" id="eaW-gH-zVQ"/>
                                                                     </constraints>
                                                                     <fontDescription key="fontDescription" name="AvenirNext-Medium" family="Avenir Next" pointSize="18"/>
-                                                                    <textInputTraits key="textInputTraits"/>
+                                                                    <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
                                                                 </textField>
                                                                 <stackView opaque="NO" contentMode="scaleToFill" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="MR8-Jr-jSd">
                                                                     <rect key="frame" x="0.0" y="32" width="382" height="18"/>
@@ -361,6 +361,9 @@
                                                                 </stackView>
                                                                 <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="5mm-ap-mOC">
                                                                     <rect key="frame" x="-2" y="46" width="386" height="23"/>
+                                                                    <connections>
+                                                                        <action selector="dateSliderDidChange:" destination="sxu-XD-lkN" eventType="valueChanged" id="tBh-Gz-FEN"/>
+                                                                    </connections>
                                                                 </slider>
                                                             </subviews>
                                                         </stackView>
@@ -387,33 +390,66 @@
                     <connections>
                         <outlet property="assetNameLabel" destination="hz7-wK-BEP" id="rB8-KV-49p"/>
                         <outlet property="currencyAmountLabel" destination="8Ws-bz-uSk" id="YDo-8B-CNE"/>
+                        <outlet property="dateSlider" destination="5mm-ap-mOC" id="EcW-O1-WLo"/>
+                        <outlet property="dateTextField" destination="Eq2-0w-q5Z" id="cRJ-GI-eTB"/>
+                        <outlet property="initialAmountTextField" destination="0Ph-Oc-g3v" id="O2C-MI-mVK"/>
+                        <outlet property="monthlyAmountTextField" destination="JH4-P3-dgk" id="13c-jx-VrM"/>
                         <outlet property="symbolLabel" destination="DF0-ad-ykB" id="Jr0-Hv-0uM"/>
                         <outletCollection property="currencyLabels" destination="Im6-lR-2Wj" collectionClass="NSMutableArray" id="yLB-N3-nix"/>
                         <outletCollection property="currencyLabels" destination="c9T-7m-XFr" collectionClass="NSMutableArray" id="zzP-nm-wu1"/>
                         <outletCollection property="currencyLabels" destination="HHs-x0-7lm" collectionClass="NSMutableArray" id="rEa-Qf-kzZ"/>
-                        <segue destination="HIT-Pj-7hN" kind="show" id="QlP-5R-Qac"/>
+                        <segue destination="HIT-Pj-7hN" kind="show" identifier="showDateSelection" id="QlP-5R-Qac"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="KaL-Sr-pEs" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1450.7246376811595" y="64.955357142857139"/>
         </scene>
-        <!--Table View Controller-->
+        <!--Date Selection TableVC-->
         <scene sceneID="yTE-eV-elS">
             <objects>
-                <tableViewController id="HIT-Pj-7hN" sceneMemberID="viewController">
+                <tableViewController id="HIT-Pj-7hN" customClass="DateSelectionTableVC" customModule="Stock_Calculator" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" id="J9b-jS-bRK">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="lgN-H0-7lq">
-                                <rect key="frame" x="0.0" y="44.5" width="414" height="43.5"/>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" accessoryType="checkmark" indentationWidth="10" reuseIdentifier="cellId" rowHeight="64" id="lgN-H0-7lq" customClass="DateSelectionTableViewCell" customModule="Stock_Calculator" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="44.5" width="414" height="64"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="lgN-H0-7lq" id="a7D-HT-XND">
-                                    <rect key="frame" x="0.0" y="0.0" width="414" height="43.5"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="373.5" height="64"/>
                                     <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" translatesAutoresizingMaskIntoConstraints="NO" id="pXz-9R-pZb">
+                                            <rect key="frame" x="16" y="8" width="341.5" height="48"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="December 2020" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pBI-Go-HGb">
+                                                    <rect key="frame" x="0.0" y="0.0" width="341.5" height="29"/>
+                                                    <fontDescription key="fontDescription" name="AvenirNext-Medium" family="Avenir Next" pointSize="18"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Recent" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="J3W-yK-dvT">
+                                                    <rect key="frame" x="0.0" y="29" width="341.5" height="19"/>
+                                                    <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="12"/>
+                                                    <color key="textColor" red="0.3803921569" green="0.3803921569" blue="0.3803921569" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                        </stackView>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstItem="pXz-9R-pZb" firstAttribute="leading" secondItem="a7D-HT-XND" secondAttribute="leading" constant="16" id="KbJ-g6-2KD"/>
+                                        <constraint firstItem="pXz-9R-pZb" firstAttribute="top" secondItem="a7D-HT-XND" secondAttribute="top" constant="8" id="mAj-nC-t7h"/>
+                                        <constraint firstAttribute="trailing" secondItem="pXz-9R-pZb" secondAttribute="trailing" constant="16" id="mt7-rF-ZAu"/>
+                                        <constraint firstAttribute="bottom" secondItem="pXz-9R-pZb" secondAttribute="bottom" constant="8" id="ue7-mK-lM2"/>
+                                    </constraints>
                                 </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="monthLabel" destination="pBI-Go-HGb" id="bi1-9c-E4G"/>
+                                    <outlet property="monthsAgoLabel" destination="J3W-yK-dvT" id="XPz-V4-Xxi"/>
+                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>

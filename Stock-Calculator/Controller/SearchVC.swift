@@ -112,7 +112,7 @@ class SearchVC: UITableViewController, UIAnimatable {
             let searchResult = searchResults.items[indexPath.item]
             handleSelection(for: symbol, searchResult: searchResult)
         }
-        
+        tableView.deselectRow(at: indexPath, animated: true)
         
        
     }

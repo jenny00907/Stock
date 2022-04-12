@@ -6,20 +6,33 @@
 //
 
 import UIKit
+import Combine
 
 
 class CalculatorTableVC: UITableViewController {
     
+    @IBOutlet weak var initialAmountTextField: UITextField!
+    @IBOutlet weak var monthlyAmountTextField: UITextField!
+    @IBOutlet weak var dateTextField: UITextField!
     @IBOutlet weak var symbolLabel: UILabel!
     @IBOutlet weak var assetNameLabel: UILabel!
     @IBOutlet var currencyLabels: [UILabel]!
     @IBOutlet weak var currencyAmountLabel: UILabel!
+    @IBOutlet weak var dateSlider: UISlider!
     
     var asset: Asset?
+    @Published private var dateIndex: Int?
+    @Published private var initialAmount: Int?
+    @Published private var monthlyAmount: Int?
+    
+    private var subscribers = Set<AnyCancellable>()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpViews()
+        setUpTextField()
+        setUpDateSlider()
+        observeForm()
     }
     
     private
@@ -32,4 +45,102 @@ class CalculatorTableVC: UITableViewController {
             label.text = currency.addBrackets()
         }
     }
+    
+    private
+    func setUpTextField() {
+        initialAmountTextField.addDoneButton()
+        monthlyAmountTextField.addDoneButton()
+        
+        dateTextField.delegate = self
+        
+    }
+    
+    private
+    func setUpDateSlider() {
+        if let count = asset?.monthlyAdjusted.getMonthlyInfo().count {
+            let floatCount = (count - 1).asFloat
+            dateSlider.maximumValue = floatCount
+        }
+            
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
+        if segue.identifier == "showDateSelection",
+            let vc = segue.destination as? DateSelectionTableVC,
+            let monthlyAdjusted = sender as? MonthlyAdjusted {
+            vc.monthlyAdjusted = monthlyAdjusted
+            vc.selectedIndex = dateIndex
+            
+            vc.didSelectDate = { [weak self] index in
+                self?.handleDateSelection(at: index)
+            }
+        }
+    }
+    
+    private
+    func handleDateSelection(at index: Int) {
+        
+        guard navigationController?.visibleViewController is DateSelectionTableVC else { return }
+        navigationController?.popViewController(animated: true)
+        
+        if let monthInfos = asset?.monthlyAdjusted.getMonthlyInfo() {
+            dateIndex = index
+            let monthInfo = monthInfos[index]
+            let dateString = monthInfo.date.MMYYFormat
+            
+            dateTextField.text = dateString
+        }
+    }
+    
+    @IBAction func dateSliderDidChange(_ sender: UISlider) {
+        dateIndex = Int(sender.value)
+        
+    }
+    private
+    func observeForm() {
+        $dateIndex.sink { [weak self] (index) in
+            guard let index = index else { return }
+            self?.dateSlider.value = index.asFloat
+            
+            if let dateString = self?.asset?.monthlyAdjusted.getMonthlyInfo()[index].date.MMYYFormat {
+                self?.dateTextField.text = dateString
+            }
+        }.store(in: &subscribers)
+    
+        NotificationCenter.default.publisher(for: UITextField.textDidChangeNotification, object: initialAmountTextField)
+            .compactMap({
+                ($0.object as? UITextField)?.text
+            }).sink { [weak self] (text) in
+                //print("InitialInvestmentTextField: \(text)")
+                self?.initialAmount = Int(text) ?? 0
+    
+            }.store(in: &subscribers)
+        
+        NotificationCenter.default.publisher(for: UITextField.textDidChangeNotification, object: monthlyAmountTextField)
+            .compactMap({
+                ($0.object as? UITextField)?.text
+            }).sink { [weak self] (text) in
+//                print("monthlyAmountTextField: \(text)")
+                self?.monthlyAmount = Int(text) ?? 0
+                
+            }.store(in: &subscribers)
+        
+        Publishers.CombineLatest3($initialAmount, $monthlyAmount, $dateIndex).sink {
+            print("ObserveForm: \($0), \($1), \($2)")
+        }.store(in: &subscribers)
+        
+    }
 }
+
+extension CalculatorTableVC: UITextFieldDelegate {
+    
+    func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
+        if textField == dateTextField {
+            performSegue(withIdentifier: "showDateSelection", sender: asset?.monthlyAdjusted)
+            return false
+        }
+        return true
+    }
+}
+
