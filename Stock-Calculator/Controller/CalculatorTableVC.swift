@@ -11,6 +11,12 @@ import Combine
 
 class CalculatorTableVC: UITableViewController {
     
+    
+    @IBOutlet weak var currentLabel: UILabel!
+    @IBOutlet weak var amountLabel: UILabel!
+    @IBOutlet weak var gainLabel: UILabel!
+    @IBOutlet weak var yieldLabel: UILabel!
+    @IBOutlet weak var annualReturnLabel: UILabel!
     @IBOutlet weak var initialAmountTextField: UITextField!
     @IBOutlet weak var monthlyAmountTextField: UITextField!
     @IBOutlet weak var dateTextField: UITextField!
@@ -26,6 +32,8 @@ class CalculatorTableVC: UITableViewController {
     @Published private var monthlyAmount: Int?
     
     private var subscribers = Set<AnyCancellable>()
+    private let dcaService = DCAService()
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -127,7 +135,19 @@ class CalculatorTableVC: UITableViewController {
             }.store(in: &subscribers)
         
         Publishers.CombineLatest3($initialAmount, $monthlyAmount, $dateIndex).sink {
-            print("ObserveForm: \($0), \($1), \($2)")
+            
+            guard let initialAmount = $0, let monthlyAmount = $1, let dateIndex = $2, let asset = self.asset else { return }
+
+            
+            let result = self.dcaService.calculateAmount(asset: asset,initial: initialAmount.asDouble,
+                                                         monthly: monthlyAmount.asDouble, dateIndex: dateIndex)
+            self.currentLabel.backgroundColor = result.isProfitable == true ? .sGreen : .sRed
+            self.currentLabel.text = result.current.toTwoDecimal
+            self.amountLabel.text = result.amount.asCurrency
+            self.gainLabel.text = result.gain.asCurrency
+            self.yieldLabel.text = result.yield.asString
+            self.annualReturnLabel.text = result.annualReturn.asString
+            
         }.store(in: &subscribers)
         
     }
