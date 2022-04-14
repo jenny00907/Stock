@@ -110,7 +110,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="Mlf-b3-UVc">
-                                                    <rect key="frame" x="16" y="16" width="382" height="118"/>
+                                                    <rect key="frame" x="16" y="10" width="382" height="130"/>
                                                     <subviews>
                                                         <stackView opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="eti-35-78y">
                                                             <rect key="frame" x="0.0" y="0.0" width="382" height="19.5"/>
@@ -151,14 +151,23 @@
                                                                 </stackView>
                                                             </subviews>
                                                         </stackView>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="5000" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0u0-pB-h2N">
-                                                            <rect key="frame" x="0.0" y="47" width="382" height="17"/>
-                                                            <fontDescription key="fontDescription" name="AvenirNext-DemiBold" family="Avenir Next" pointSize="24"/>
-                                                            <nil key="textColor"/>
-                                                            <nil key="highlightedColor"/>
-                                                        </label>
+                                                        <stackView opaque="NO" contentMode="scaleToFill" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="gZD-xZ-ik5">
+                                                            <rect key="frame" x="0.0" y="47" width="382" height="29"/>
+                                                            <subviews>
+                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="5000" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0u0-pB-h2N">
+                                                                    <rect key="frame" x="0.0" y="0.0" width="61" height="29"/>
+                                                                    <fontDescription key="fontDescription" name="AvenirNext-DemiBold" family="Avenir Next" pointSize="25"/>
+                                                                    <nil key="textColor"/>
+                                                                    <nil key="highlightedColor"/>
+                                                                </label>
+                                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0rj-yp-LAc">
+                                                                    <rect key="frame" x="77" y="0.0" width="305" height="29"/>
+                                                                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                                                </view>
+                                                            </subviews>
+                                                        </stackView>
                                                         <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="8sq-X0-0Pi">
-                                                            <rect key="frame" x="0.0" y="68" width="382" height="14"/>
+                                                            <rect key="frame" x="0.0" y="80" width="382" height="14"/>
                                                             <subviews>
                                                                 <stackView opaque="NO" contentMode="scaleToFill" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="N1f-AH-CtZ">
                                                                     <rect key="frame" x="0.0" y="0.0" width="382" height="14"/>
@@ -190,7 +199,7 @@
                                                             </subviews>
                                                         </stackView>
                                                         <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="yDp-pO-fMq">
-                                                            <rect key="frame" x="0.0" y="86" width="382" height="14"/>
+                                                            <rect key="frame" x="0.0" y="98" width="382" height="14"/>
                                                             <subviews>
                                                                 <stackView opaque="NO" contentMode="scaleToFill" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="xUW-sp-Be8">
                                                                     <rect key="frame" x="0.0" y="0.0" width="382" height="14"/>
@@ -222,7 +231,7 @@
                                                             </subviews>
                                                         </stackView>
                                                         <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="pPe-Bm-LIC">
-                                                            <rect key="frame" x="0.0" y="104" width="382" height="14"/>
+                                                            <rect key="frame" x="0.0" y="116" width="382" height="14"/>
                                                             <subviews>
                                                                 <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="G0b-wV-IOz">
                                                                     <rect key="frame" x="0.0" y="0.0" width="382" height="14"/>
@@ -252,9 +261,9 @@
                                             </subviews>
                                             <constraints>
                                                 <constraint firstAttribute="trailing" secondItem="Mlf-b3-UVc" secondAttribute="trailing" constant="16" id="ABx-4K-z0S"/>
-                                                <constraint firstAttribute="bottom" secondItem="Mlf-b3-UVc" secondAttribute="bottom" constant="16" id="I5h-oM-Qh4"/>
+                                                <constraint firstAttribute="bottom" secondItem="Mlf-b3-UVc" secondAttribute="bottom" constant="10" id="I5h-oM-Qh4"/>
                                                 <constraint firstItem="Mlf-b3-UVc" firstAttribute="leading" secondItem="bNz-Nz-A1M" secondAttribute="leading" constant="16" id="RyJ-g7-rPA"/>
-                                                <constraint firstItem="Mlf-b3-UVc" firstAttribute="top" secondItem="bNz-Nz-A1M" secondAttribute="top" constant="16" id="g4o-1w-uaZ"/>
+                                                <constraint firstItem="Mlf-b3-UVc" firstAttribute="top" secondItem="bNz-Nz-A1M" secondAttribute="top" constant="10" id="g4o-1w-uaZ"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
@@ -388,13 +397,18 @@
                     </tableView>
                     <navigationItem key="navigationItem" largeTitleDisplayMode="never" id="Vit-8d-2Zs"/>
                     <connections>
+                        <outlet property="amountLabel" destination="ylY-wT-PXe" id="Kkg-jR-NN1"/>
+                        <outlet property="annualReturnLabel" destination="5UV-Mv-TTs" id="mwB-NI-RbS"/>
                         <outlet property="assetNameLabel" destination="hz7-wK-BEP" id="rB8-KV-49p"/>
                         <outlet property="currencyAmountLabel" destination="8Ws-bz-uSk" id="YDo-8B-CNE"/>
+                        <outlet property="currentLabel" destination="0u0-pB-h2N" id="jmQ-9K-5FR"/>
                         <outlet property="dateSlider" destination="5mm-ap-mOC" id="EcW-O1-WLo"/>
                         <outlet property="dateTextField" destination="Eq2-0w-q5Z" id="cRJ-GI-eTB"/>
+                        <outlet property="gainLabel" destination="GzK-V1-40K" id="nuD-LH-Ktu"/>
                         <outlet property="initialAmountTextField" destination="0Ph-Oc-g3v" id="O2C-MI-mVK"/>
                         <outlet property="monthlyAmountTextField" destination="JH4-P3-dgk" id="13c-jx-VrM"/>
                         <outlet property="symbolLabel" destination="DF0-ad-ykB" id="Jr0-Hv-0uM"/>
+                        <outlet property="yieldLabel" destination="axI-iI-SN1" id="P3Y-SH-uf7"/>
                         <outletCollection property="currencyLabels" destination="Im6-lR-2Wj" collectionClass="NSMutableArray" id="yLB-N3-nix"/>
                         <outletCollection property="currencyLabels" destination="c9T-7m-XFr" collectionClass="NSMutableArray" id="zzP-nm-wu1"/>
                         <outletCollection property="currencyLabels" destination="HHs-x0-7lm" collectionClass="NSMutableArray" id="rEa-Qf-kzZ"/>
