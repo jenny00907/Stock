@@ -25,4 +25,28 @@ extension Double {
     
         return formatter.string(from: self as NSNumber) ?? toTwoDecimal
     }
+    
+    var asPercentage: String {
+        let formatter = NumberFormatter()
+        formatter.numberStyle = .percent
+        formatter.maximumFractionDigits = 2
+        
+        return formatter.string(from: self as NSNumber) ?? toTwoDecimal
+    }
+    
+    
+    func toCurrency(symbol: Bool = true, decimal: Bool = true) -> String{
+        let formatter = NumberFormatter()
+        formatter.locale = Locale(identifier: "en_US")
+        formatter.numberStyle = .currency
+        if symbol == false {
+            formatter.currencySymbol = ""
+        }
+        if decimal == false {
+            formatter.maximumFractionDigits = 0
+        }
+    
+        return formatter.string(from: self as NSNumber) ?? toTwoDecimal
+    }
+    
 }

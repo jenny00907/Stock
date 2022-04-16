@@ -11,4 +11,8 @@ extension String {
     func addBrackets() -> String {
         return "(\(self))"
     }
+    
+    func prefix(with text: String) -> String {
+        return text + self
+    }
 }
