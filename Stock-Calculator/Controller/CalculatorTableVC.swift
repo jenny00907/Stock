@@ -37,11 +37,18 @@ class CalculatorTableVC: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        resetView()
         setUpViews()
         setUpTextField()
         setUpDateSlider()
         observeForm()
     }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        initialAmountTextField.becomeFirstResponder()
+    }
+    
     
     private
     func setUpViews() {
@@ -101,6 +108,16 @@ class CalculatorTableVC: UITableViewController {
         }
     }
     
+    private
+    func resetView() {
+        navigationItem.title = asset?.searchResult.symbol
+        currentLabel.text = "0.00"
+        amountLabel.text = "0.00"
+        gainLabel.text = "-"
+        yieldLabel.text = "-"
+        annualReturnLabel.text = "-"
+    }
+    
     @IBAction func dateSliderDidChange(_ sender: UISlider) {
         dateIndex = Int(sender.value)
         
@@ -141,12 +158,19 @@ class CalculatorTableVC: UITableViewController {
             
             let result = self.dcaService.calculateAmount(asset: asset,initial: initialAmount.asDouble,
                                                          monthly: monthlyAmount.asDouble, dateIndex: dateIndex)
-            self.currentLabel.backgroundColor = result.isProfitable == true ? .sGreen : .sRed
-            self.currentLabel.text = result.current.toTwoDecimal
-            self.amountLabel.text = result.amount.asCurrency
-            self.gainLabel.text = result.gain.asCurrency
-            self.yieldLabel.text = result.yield.asString
-            self.annualReturnLabel.text = result.annualReturn.asString
+            
+            let isProfitable =  result.isProfitable == true
+            let gainSymbol = isProfitable ? "+" : "-"
+            
+            self.currentLabel.backgroundColor = isProfitable ? .sGreen : .sRed
+            self.currentLabel.text = result.current.asCurrency
+            self.amountLabel.text = result.amount.toCurrency(decimal: false)
+            self.gainLabel.text = result.gain.toCurrency(symbol: false, decimal: false)
+            self.yieldLabel.text = result.yield.asPercentage.prefix(with: gainSymbol).addBrackets()
+            self.yieldLabel.textColor = isProfitable ? .systemGreen : .systemRed
+            self.annualReturnLabel.text = result.annualReturn.asPercentage
+            self.annualReturnLabel.textColor = isProfitable ? .systemGreen : .systemRed
+            
             
         }.store(in: &subscribers)
         

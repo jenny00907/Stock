@@ -18,10 +18,13 @@ struct DCAService {
         
         let current = getCurrent(numberOfShares: numberOfShares, price: sharePrice)
         let isProfitable = current > investment
+        let annualReturn = getAnnualReturn(current: current, amount: investment, index: dateIndex)
         
+        let gain = current - investment
+        let yield = gain / investment * 100
         
-        
-        return .init(current: current, amount: investment, gain: 0, yield: 0, annualReturn: 0, isProfitable: isProfitable)
+        return .init(current: current, amount: investment, gain: gain, yield: yield,
+                     annualReturn: annualReturn, isProfitable: isProfitable)
     }
     
     private
@@ -31,6 +34,13 @@ struct DCAService {
         let average = dateIndex.asDouble * monthly
         total += average
         return total
+    }
+    
+    private
+    func getAnnualReturn(current: Double, amount: Double, index: Int) -> Double {
+        let rate = current / amount
+        let years = (index.asDouble + 1) / 12
+        return pow(rate, (1/years)) - 1
     }
     
     private
@@ -56,7 +66,6 @@ struct DCAService {
         }
         return total
     }
-    
 }
 
 
