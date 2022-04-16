@@ -96,11 +96,13 @@ class SearchVC: UITableViewController, UIAnimatable {
 
     }
    
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return searchResults?.items.count ?? 0
     }
     
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    override
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cellId", for: indexPath) as! SearchCell
         if let searchResults = self.searchResults {
             let searchResults = searchResults.items[indexPath.row]
@@ -108,15 +110,16 @@ class SearchVC: UITableViewController, UIAnimatable {
         }
         return cell
     }
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    
+    override
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if let searchResults = searchResults {
             let symbol = searchResults.items[indexPath.item].symbol
             let searchResult = searchResults.items[indexPath.item]
             handleSelection(for: symbol, searchResult: searchResult)
         }
         tableView.deselectRow(at: indexPath, animated: true)
-        
-       
+
     }
     
     private
@@ -147,23 +150,20 @@ class SearchVC: UITableViewController, UIAnimatable {
            let asset = sender as? Asset {
             destination.asset = asset
         }
-            
     }
-    
 }
 
 extension SearchVC: UISearchResultsUpdating, UISearchControllerDelegate {
+    
     func updateSearchResults(for searchController: UISearchController) {
         guard let searchQuery = searchController.searchBar.text,
                 !searchQuery.isEmpty else { return }
         
         self.searchQuery = searchQuery
-        
-        
     }
+    
     func willPresentSearchController(_ searchController: UISearchController) {
         mode = .search
     }
-    
 }
 
