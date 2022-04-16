@@ -285,6 +285,7 @@
                                                                     <constraints>
                                                                         <constraint firstAttribute="height" constant="36" id="vd8-A6-e3P"/>
                                                                     </constraints>
+                                                                    <color key="textColor" red="0.0" green="0.69411764710000001" blue="0.81176470590000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                     <fontDescription key="fontDescription" name="AvenirNext-Medium" family="Avenir Next" pointSize="18"/>
                                                                     <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
                                                                 </textField>
@@ -318,6 +319,7 @@
                                                                     <constraints>
                                                                         <constraint firstAttribute="height" constant="36" id="oef-78-Sjh"/>
                                                                     </constraints>
+                                                                    <color key="textColor" red="0.0" green="0.69411764710000001" blue="0.81176470590000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                     <fontDescription key="fontDescription" name="AvenirNext-Medium" family="Avenir Next" pointSize="18"/>
                                                                     <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
                                                                 </textField>
@@ -351,6 +353,7 @@
                                                                     <constraints>
                                                                         <constraint firstAttribute="height" constant="36" id="eaW-gH-zVQ"/>
                                                                     </constraints>
+                                                                    <color key="textColor" red="0.0" green="0.69411764710000001" blue="0.81176470590000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                     <fontDescription key="fontDescription" name="AvenirNext-Medium" family="Avenir Next" pointSize="18"/>
                                                                     <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
                                                                 </textField>
