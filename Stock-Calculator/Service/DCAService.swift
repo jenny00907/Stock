@@ -27,7 +27,7 @@ struct DCAService {
                      annualReturn: annualReturn, isProfitable: isProfitable)
     }
     
-    private
+    //private
     func getInvestment(initial: Double, monthly: Double, dateIndex: Int) -> Double {
         var total = Double()
         total += initial
